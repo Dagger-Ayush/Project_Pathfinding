@@ -5,18 +5,28 @@ using UnityEngine;
 public class Highlight : MonoBehaviour
 {
     private MeshRenderer tileRend;
+
     public Material selectedMaterial;
+    public Material currentMaterial;
+    public Material targetMaterial;
     public Material defaultMaterial;
-    // private bool selected;
-    private bool hover;
+
+    [SerializeField] private bool current = false;
+    [SerializeField] private bool selectable = false;
+    [SerializeField] private bool target = false;
+
+    private bool hover = true;
 
     // Make sure the MeshRenderer component is off in the inspector
 
     private void Start()
     {
         tileRend = GetComponent<MeshRenderer>();
-        // selected = false;
-        hover = true;
+    }
+
+    private void Update()
+    {
+        TileOperation();
     }
 
     private void OnMouseEnter()
@@ -29,6 +39,22 @@ public class Highlight : MonoBehaviour
     {
         if(hover)
         tileRend.enabled = false;
+    }
+
+    void TileOperation()
+    {
+        if (Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            if (current)
+                tileRend.material = currentMaterial;
+            else if (target)
+                tileRend.material = targetMaterial;
+            else if (selectable)
+                tileRend.material = selectedMaterial;
+            else
+                tileRend.material = defaultMaterial;
+        }
+        
     }
 
 }

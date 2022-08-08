@@ -54,7 +54,7 @@ public class AIGridManager : MonoBehaviour
         get { return gridCellSize; }
     }
 
-    void Awake()
+    void LateUpdate()
     {
         ComputeGrid();
     }
@@ -129,6 +129,7 @@ public class AIGridManager : MonoBehaviour
 
     // GetNeighbours, which is used by the AStar class to retrieve the neighboring Nodes of a particular node.This is done by obtaining
     // the grid coordinate of the node and then checking whether the four neighbor's coordinates(up, down, left, and right) are traversable
+
     public List<Node> GetNeighbours(Node node)
     {
         List<Node> result = new();

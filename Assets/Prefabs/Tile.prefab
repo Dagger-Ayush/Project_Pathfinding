@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 5480077668566667449}
   - component: {fileID: 5480077668566667448}
   - component: {fileID: 6058971886329154233}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Tile
-  m_TagString: Untagged
+  m_TagString: Tile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -50,7 +50,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5480077668566667455}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -111,4 +111,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selectedMaterial: {fileID: 2100000, guid: 4d6bc8539f0a1ba488e77ce92a53d0e2, type: 2}
+  currentMaterial: {fileID: 2100000, guid: 5ece62329b848c64098a881832fe5c9d, type: 2}
+  targetMaterial: {fileID: 2100000, guid: 1a25dcc02baf2ea4ba426786bb34a1e2, type: 2}
   defaultMaterial: {fileID: 2100000, guid: 333509a5ba6b0164eb2ac5d75ab13655, type: 2}
+  current: 0
+  selectable: 0
+  target: 0

@@ -4,11 +4,12 @@ using System.Collections.Generic;
 public class TestCode : MonoBehaviour
 {
     private Transform startPos, endPos;
+    //private float speed = 10.0f;
     public Node StartNode { get; set; }
     public Node GoalNode { get; set; }
     public List<Node> pathArray;
 
-    GameObject objStartCube, objEndCube;
+    GameObject player, Enemy;
     private float elapsedTime = 0.0f;
 
     //Interval time between pathfinding
@@ -16,10 +17,9 @@ public class TestCode : MonoBehaviour
 
     void Start()
     {
-        objStartCube = GameObject.FindGameObjectWithTag("Start");
-        objEndCube = GameObject.FindGameObjectWithTag("End");
+        player = GameObject.FindGameObjectWithTag("Player");
+        Enemy = GameObject.FindGameObjectWithTag("Enemy");
         pathArray = new List<Node>();
-        FindPath();
     }
     void Update()
     {
@@ -29,11 +29,12 @@ public class TestCode : MonoBehaviour
             elapsedTime = 0.0f;
             FindPath();
         }
+
     }
     void FindPath()
     {
-        startPos = objStartCube.transform;
-        endPos = objEndCube.transform;
+        startPos = player.transform;
+        endPos = Enemy.transform;
         //Assign StartNode and Goal Node
         var (startColumn, startRow) = AIGridManager.Instance.GetGridCoordinates(startPos.position);
         var (goalColumn, goalRow) = AIGridManager.Instance.GetGridCoordinates(endPos.position);
