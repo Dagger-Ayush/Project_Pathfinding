@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
 
 public class GridManager : MonoBehaviour
 {
@@ -9,18 +8,12 @@ public class GridManager : MonoBehaviour
     [SerializeField] GameObject tile;
     [SerializeField] int rows = 20; // 1 cube equals 2 units (according to asset)
     [SerializeField] int columns = 20; 
-    public TextMeshProUGUI indexText;
 
     // Array for grid isn't used because array starts from the index 0 and the index where the tile( ground gameobject) is to be placed is 1,1 
 
     void Start()
     {
         GenerateGrid();
-    }
-
-    private void Update()
-    {
-        UpdateSelection(); 
     }
 
     private void GenerateGrid()
@@ -49,21 +42,5 @@ public class GridManager : MonoBehaviour
         }
     }
 
-    void UpdateSelection()
-    {
-        // checking if the camera that is raycasting is the main one
-        if (!Camera.main) 
-            return;
-
-        // Raycasting to show index while hovering
-        if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, 50.0f, LayerMask.GetMask("Base")))
-        {
-            // For representing the index from 1,1 to 10,10 +1 is added, for ex. 0 + 1 = (1,1)
-            int indexX = (Mathf.FloorToInt(hit.point.x) / 2) + 1;
-            int indexZ = (Mathf.FloorToInt(hit.point.z) / 2) + 1;
-
-            // Printing the index through UI
-            indexText.text = "Index : " + indexX + " , " + indexZ;
-        }
-    }
+    
 }

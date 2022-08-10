@@ -50,7 +50,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5480077668566667455}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -114,6 +114,5 @@ MonoBehaviour:
   currentMaterial: {fileID: 2100000, guid: 5ece62329b848c64098a881832fe5c9d, type: 2}
   targetMaterial: {fileID: 2100000, guid: 1a25dcc02baf2ea4ba426786bb34a1e2, type: 2}
   defaultMaterial: {fileID: 2100000, guid: 333509a5ba6b0164eb2ac5d75ab13655, type: 2}
-  current: 0
-  selectable: 0
-  target: 0
+  hover: 1
+  selected: 0

@@ -9,7 +9,7 @@ public class TestCode : MonoBehaviour
     public Node GoalNode { get; set; }
     public List<Node> pathArray;
 
-    GameObject player, Enemy;
+    GameObject player, destination;
     private float elapsedTime = 0.0f;
 
     //Interval time between pathfinding
@@ -18,7 +18,7 @@ public class TestCode : MonoBehaviour
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
-        Enemy = GameObject.FindGameObjectWithTag("Enemy");
+        destination = GameObject.FindGameObjectWithTag("Tile");
         pathArray = new List<Node>();
     }
     void Update()
@@ -34,7 +34,7 @@ public class TestCode : MonoBehaviour
     void FindPath()
     {
         startPos = player.transform;
-        endPos = Enemy.transform;
+        endPos = destination.transform;
         //Assign StartNode and Goal Node
         var (startColumn, startRow) = AIGridManager.Instance.GetGridCoordinates(startPos.position);
         var (goalColumn, goalRow) = AIGridManager.Instance.GetGridCoordinates(endPos.position);

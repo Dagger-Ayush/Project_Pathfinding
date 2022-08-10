@@ -11,22 +11,21 @@ public class Highlight : MonoBehaviour
     public Material targetMaterial;
     public Material defaultMaterial;
 
-    [SerializeField] private bool current = false;
-    [SerializeField] private bool selectable = false;
-    [SerializeField] private bool target = false;
+    //[SerializeField] private bool current = false;
+    //[SerializeField] private bool selectable = false;
+    //[SerializeField] private bool target = false;
 
-    private bool hover = true;
-
+    public bool hover = true;
+    public bool selected = false;
     // Make sure the MeshRenderer component is off in the inspector
 
     private void Start()
     {
         tileRend = GetComponent<MeshRenderer>();
     }
-
     private void Update()
     {
-        TileOperation();
+        // TileOperatioin();
     }
 
     private void OnMouseEnter()
@@ -41,22 +40,28 @@ public class Highlight : MonoBehaviour
         tileRend.enabled = false;
     }
 
-    void TileOperation()
-    {
-        if (Input.GetKeyDown(KeyCode.Mouse0))
-        {
-            if (current)
-                tileRend.material = currentMaterial;
-            else if (target)
-                tileRend.material = targetMaterial;
-            else if (selectable)
-                tileRend.material = selectedMaterial;
-            else
-                tileRend.material = defaultMaterial;
-        }
+    //void TileOperatioin()
+    //{
+    //    if(Input.GetKeyDown(KeyCode.Mouse0))
+    //    {
+    //        hover = !hover;
+    //        selected = !selected;
+    //    }
         
-    }
-
+    //    if (selected)
+    //    {
+    //        if (current)
+    //            tileRend.material = currentMaterial;
+    //        else if (target)
+    //            tileRend.material = targetMaterial;
+    //        else if (selectable)
+    //            tileRend.material = selectedMaterial;
+    //        else
+    //            tileRend.material = defaultMaterial;
+    //    }
+    //}
+        
+    
 }
 
 
