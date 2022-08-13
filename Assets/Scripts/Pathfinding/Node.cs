@@ -25,8 +25,7 @@ public class Node
        the search algorithm is concerned. The way to do that is to override the default Equals and GetHashCode methods */
     public override bool Equals(object obj)
     {
-        return obj is Node node &&
-        position.Equals(node.position);
+        return obj is Node node && position.Equals(node.position);
     }
     public override int GetHashCode()
     {

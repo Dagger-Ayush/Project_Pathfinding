@@ -170,7 +170,7 @@ public class AIGridManager : MonoBehaviour
         //Draw Obstacle obstruction
         if (showObstacleBlocks)
         {
-            Vector3 cellSize = new Vector3(gridCellSize, 1.0f, gridCellSize);
+            Vector3 cellSize = new(gridCellSize, 1.0f, gridCellSize);
             Gizmos.color = Color.red;
             for (int i = 0; i < numOfColumns; i++)
             {

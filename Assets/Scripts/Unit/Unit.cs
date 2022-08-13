@@ -6,35 +6,34 @@ public class Unit : MonoBehaviour
 {
     [SerializeField] private Animator unitAnimator;
 
-    private Vector3 targetPos;
-    readonly private float moveSpeed = 4.0f;
+    readonly private float moveSpeed = 3.0f;
     readonly private float stopDis = 0.1f;
 
-    private void Awake()
+    private Vector3 targetPos;
+
+    void Awake()
     {
-        targetPos = transform.position;
+       targetPos = transform.position;
     }
 
     private void Update()
     {
+
         if (Vector3.Distance(transform.position, targetPos) > stopDis)
         {
             Vector3 moveDirection = (targetPos - transform.position).normalized;
             transform.position += moveSpeed * Time.deltaTime * moveDirection;
-
             transform.forward = moveDirection;
 
-            unitAnimator.SetBool("IsWalking", true);
+            unitAnimator.SetBool("IsRunning", true);
         }
         else
-            unitAnimator.SetBool("IsWalking", false);
-
-        if (Input.GetMouseButtonDown(0))
-            Move(MouseWorld.GetPositionOnGround());
+            unitAnimator.SetBool("IsRunning", false);
     }
 
-    private void Move(Vector3 targetPos)
+    public void GetTargetPos(Vector3 targetPos)
     {
         this.targetPos = targetPos;
     }
+
 }

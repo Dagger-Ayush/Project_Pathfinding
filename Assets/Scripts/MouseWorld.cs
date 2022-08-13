@@ -5,7 +5,6 @@ using TMPro;
 
 public class MouseWorld : MonoBehaviour
 {
-    // MouseWorld as Instance, to use only this RayCast throughout the game
     private static MouseWorld Instance;
 
     [SerializeField] TextMeshProUGUI indexText;
@@ -18,7 +17,7 @@ public class MouseWorld : MonoBehaviour
 
     private void Update()
     {
-        transform.position = MouseWorld.GetPositionOnGround();
+        transform.position = GetPositionOnGround();
         GetPositionIndex();
     }
 
@@ -36,7 +35,6 @@ public class MouseWorld : MonoBehaviour
             indexText.text = "Index : " + indexX + " , " + indexZ;
         }
     }
-
 
      // A Reference function to get position of mouse
     public static Vector3 GetPositionOnGround()
