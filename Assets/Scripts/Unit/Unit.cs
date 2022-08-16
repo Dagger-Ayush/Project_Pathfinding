@@ -10,17 +10,23 @@ public class Unit : MonoBehaviour
     readonly private float stopDis = 0.1f;
 
     private Vector3 targetPos;
+    private List<Vector3> pathfindingList;
+    private int currentPosIndex;
 
     void Awake()
     {
-       targetPos = transform.position;
+        targetPos = transform.position;
+        pathfindingList = new List<Vector3>();
+        currentPosIndex = 0;
     }
 
     private void Update()
     {
+        pathfindingList = Pathfinding.Instance.GetPosList();
+        targetPos = GetDestination();
 
         if (Vector3.Distance(transform.position, targetPos) > stopDis)
-        {
+        {                 
             Vector3 moveDirection = (targetPos - transform.position).normalized;
             transform.position += moveSpeed * Time.deltaTime * moveDirection;
             transform.forward = moveDirection;
@@ -28,7 +34,26 @@ public class Unit : MonoBehaviour
             unitAnimator.SetBool("IsRunning", true);
         }
         else
-            unitAnimator.SetBool("IsRunning", false);
+        {
+            currentPosIndex++;
+            
+            if (transform.position == targetPos)
+                unitAnimator.SetBool("IsRunning", false);
+        }
+           
+    }
+
+    private Vector3 GetDestination()
+    {
+        if (currentPosIndex < pathfindingList.Count)
+            return pathfindingList[currentPosIndex];
+
+        if(currentPosIndex >= pathfindingList.Count)
+        {
+            currentPosIndex = 0;
+            pathfindingList.Clear();
+        }
+            return transform.position;
     }
 
     public void GetTargetPos(Vector3 targetPos)

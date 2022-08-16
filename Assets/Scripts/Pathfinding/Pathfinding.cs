@@ -2,41 +2,42 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class TestCode : MonoBehaviour
+public class Pathfinding : MonoBehaviour
 {
+    public static Pathfinding Instance { get; set; }
+
     private Vector3 startPos, endPos;
 
     public Node StartNode { get; set; }
     public Node GoalNode { get; set; }
 
     public List<Node> pathArray;
-
-
-    private float elapsedTime = 0.0f;
-    public float intervalTime = 1.0f; //Interval time between path finding
-
+    public List<Vector3> posList;
 
     private void Awake()
     {
+        Instance = this;
+        startPos = transform.position;
         endPos = transform.position; 
     }
 
     // Use this for initialization
     void Start()
     {
-        //AStar Calculated Path
+        // AStar Calculated Path
         pathArray = new List<Node>();
+
+        // Path in Vector3 
+        posList = new List<Vector3>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        elapsedTime += Time.deltaTime;
-
-        if (elapsedTime >= intervalTime)
+        if(Input.GetMouseButtonDown(0))
         {
-            elapsedTime = 0.0f;
             FindPath();
+            SimplifyPath();
         }
     }
 
@@ -61,7 +62,7 @@ public class TestCode : MonoBehaviour
 
         if (pathArray.Count > 0)
         {
-            int index = 1;
+            int index = 0;
             foreach (Node node in pathArray)
             {
                 if (index < pathArray.Count)
@@ -72,5 +73,29 @@ public class TestCode : MonoBehaviour
                 }
             };
         }
+    }
+
+    void SimplifyPath()
+    {
+        if (pathArray == null)
+            return;
+
+        if (pathArray.Count > 0)
+        {
+            int index = 0;
+            foreach (Node node in pathArray)
+            {
+                if (index < pathArray.Count)
+                {
+                    posList.Add(pathArray[index].position);
+                    index++;
+                }
+            };
+        }
+    }
+
+    public List<Vector3> GetPosList()
+    {
+        return posList;
     }
 }
