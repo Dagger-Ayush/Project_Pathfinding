@@ -6,19 +6,18 @@ public class Pathfinding : MonoBehaviour
 {
     public static Pathfinding Instance { get; set; }
 
-    private Vector3 startPos, endPos;
+    [HideInInspector] public Vector3 startPos, endPos;
 
     public Node StartNode { get; set; }
     public Node GoalNode { get; set; }
 
     public List<Node> pathArray;
     public List<Vector3> posList;
+    [HideInInspector] public bool isMoving = false;
 
     private void Awake()
     {
         Instance = this;
-        startPos = transform.position;
-        endPos = transform.position; 
     }
 
     // Use this for initialization
@@ -34,7 +33,7 @@ public class Pathfinding : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetMouseButtonDown(0))
+        if(Input.GetMouseButtonDown(0) && !isMoving)
         {
             FindPath();
             SimplifyPath();
@@ -46,7 +45,7 @@ public class Pathfinding : MonoBehaviour
         startPos = UnitActionSystem.Instance.GetSelectedUnit().transform.position;
         endPos = MouseWorld.GetPositionOnGround();
 
-        //Assign StartNode and Goal Node
+        // Assigning StartNode and Goal Node
         var (startColumn, startRow) = AIGridManager.Instance.GetGridCoordinates(startPos);
         var (goalColumn, goalRow) = AIGridManager.Instance.GetGridCoordinates(endPos);
         StartNode = new Node(AIGridManager.Instance.GetGridCellCenter(startColumn, startRow));
@@ -62,7 +61,7 @@ public class Pathfinding : MonoBehaviour
 
         if (pathArray.Count > 0)
         {
-            int index = 0;
+            int index = 1;
             foreach (Node node in pathArray)
             {
                 if (index < pathArray.Count)
@@ -98,4 +97,5 @@ public class Pathfinding : MonoBehaviour
     {
         return posList;
     }
+
 }

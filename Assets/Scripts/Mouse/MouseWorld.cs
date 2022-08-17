@@ -8,7 +8,7 @@ public class MouseWorld : MonoBehaviour
     private static MouseWorld Instance;
 
     [SerializeField] TextMeshProUGUI indexText;
-    [SerializeField] private LayerMask ground;
+    [SerializeField] private LayerMask ground;  // ('ground') = Ground, Tile
 
     private void Awake()
     {
@@ -18,6 +18,7 @@ public class MouseWorld : MonoBehaviour
     private void Update()
     {
         transform.position = GetPositionOnGround();
+
         GetPositionIndex();
     }
 
@@ -36,11 +37,11 @@ public class MouseWorld : MonoBehaviour
         }
     }
 
-     // A Reference function to get position of mouse
+     // A Reference function to get position of mouse on the ground
     public static Vector3 GetPositionOnGround()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out RaycastHit hitPos, 50.0f, Instance.ground))
+        if(Physics.Raycast(ray, out RaycastHit hitPos, 50.0f, Instance.ground)) // return true if mouse is on ground else returns selected unit positon
             return hitPos.point;
         else
             return UnitActionSystem.Instance.GetSelectedUnit().transform.position;

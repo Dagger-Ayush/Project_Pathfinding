@@ -12,6 +12,7 @@ public class UnitActionSystem : MonoBehaviour
     public event EventHandler OnSelectedUnitChanged;
 
     [SerializeField] private Unit selectedUnit;
+
     [SerializeField] private LayerMask UnitMask;
 
     void Awake()
@@ -28,15 +29,17 @@ public class UnitActionSystem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !(Pathfinding.Instance.isMoving))
         {
             if (TryHandleUnitSelection()) return;
 
-            selectedUnit.GetTargetPos(MouseWorld.GetPositionOnGround());
+            // Assigns the pathfinding position list to the selected unit 
+            selectedUnit.GetMoveAction().SetTargetPos(Pathfinding.Instance.posList);
         }
            
     }
-
+    
+    // Function to check if the unit is selected
     private bool TryHandleUnitSelection()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -51,6 +54,8 @@ public class UnitActionSystem : MonoBehaviour
         return false;
     }
 
+
+    // Function to set selected unit
     private void SetSelectedUnit(Unit unit)
     {
         selectedUnit = unit;
@@ -58,6 +63,7 @@ public class UnitActionSystem : MonoBehaviour
         OnSelectedUnitChanged?.Invoke(this, EventArgs.Empty);
     }
 
+    // Function to get selected unit
     public Unit GetSelectedUnit()
     {
         return selectedUnit;
