@@ -9,6 +9,7 @@ using System.Collections.Generic;
 public class AIGridManager : MonoBehaviour
 {
     private static AIGridManager staticInstance = null;
+    [SerializeField] private LayerMask obstacleLayer;
     public static AIGridManager Instance
     {
         get
@@ -72,7 +73,7 @@ public class AIGridManager : MonoBehaviour
 
                 // The OverlapSphere function is used to check whether the square is occupied by an obstacle
                 // centering the sphere at the center of the grid's cell (cellPos) and define the sphere's radius as a bit less than the grid cell size
-                var collisions = Physics.OverlapSphere(cellPos, gridCellSize / 2 - obstacleEpsilon, 1 << LayerMask.NameToLayer("Obstacles"));
+                var collisions = Physics.OverlapSphere(cellPos, gridCellSize / 2 - obstacleEpsilon, obstacleLayer);
                 // If the OverlapSphere function returns anything, this means that we have an obstacle inside the cell and, therefore,
                 // we define the entire cell as an obstacle.
 

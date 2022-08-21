@@ -5,6 +5,7 @@ using UnityEngine;
 public class Unit : MonoBehaviour
 {
     private MoveAction moveAction;
+    [SerializeField] private bool isEnemy;
 
     private void Awake()
     {
@@ -14,6 +15,11 @@ public class Unit : MonoBehaviour
     public MoveAction GetMoveAction()
     {
         return moveAction;
+    }
+
+    public bool IsEnemy()
+    {
+        return isEnemy;
     }
 
 }

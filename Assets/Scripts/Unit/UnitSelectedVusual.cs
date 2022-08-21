@@ -16,12 +16,18 @@ public class UnitSelectedVusual : MonoBehaviour
 
     private void Start()
     {
-        // Subscribing to the event
         UnitActionSystem.Instance.OnSelectedUnitChanged += UnitActionSystem_OnSelectedUnitChanged;
         UpdateVisual();
     }
 
-    // Subsriber Or Listener
+    private void Update()
+    {
+        if (!TurnManager.Instance.IsPlayerTurn())
+            selectedRenderer.enabled = false;
+        else
+            UpdateVisual();
+    }
+
     private void UnitActionSystem_OnSelectedUnitChanged(object sender, EventArgs empty)
     {
         UpdateVisual();

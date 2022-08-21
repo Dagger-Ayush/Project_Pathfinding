@@ -41,7 +41,7 @@ public class MouseWorld : MonoBehaviour
     public static Vector3 GetPositionOnGround()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if(Physics.Raycast(ray, out RaycastHit hitPos, 50.0f, Instance.ground)) // return true if mouse is on ground else returns selected unit positon
+        if(Physics.Raycast(ray, out RaycastHit hitPos, 50.0f, Instance.ground)) // return true if mouse is on ground (not water) else returns selected unit positon
             return hitPos.point;
         else
             return UnitActionSystem.Instance.GetSelectedUnit().transform.position;

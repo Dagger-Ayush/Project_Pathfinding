@@ -33,17 +33,42 @@ public class Pathfinding : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetMouseButtonDown(0) && !isMoving)
+        FindPathForPlayer();
+
+        FindPathForEnemy();
+    }
+
+    // // Find Path for enemy if its enemy's turn
+    private void FindPathForPlayer()
+    {
+        if (Input.GetMouseButtonDown(0) && !isMoving && TurnManager.Instance.IsPlayerTurn())
         {
-            FindPath();
+            Vector3 start = UnitActionSystem.Instance.GetSelectedUnit().transform.position;
+            Vector3 end = MouseWorld.GetPositionOnGround(); ;
+
+            FindPath(start, end);
             SimplifyPath();
         }
     }
 
-    void FindPath()
+    // Find Path for enemy if its player's turn
+    private void FindPathForEnemy()
     {
-        startPos = UnitActionSystem.Instance.GetSelectedUnit().transform.position;
-        endPos = MouseWorld.GetPositionOnGround();
+        if (!Pathfinding.Instance.isMoving && !TurnManager.Instance.IsPlayerTurn())
+        {
+            Vector3 start = EnemyAI.Instance.SetStartPosForEnemy();
+            Vector3 end = EnemyAI.Instance.GetDestinationForEnemy();
+
+            Pathfinding.Instance.FindPath(start, end);
+            Pathfinding.Instance.SimplifyPath();
+        }
+    }
+
+    // Function to Find A* Path
+    public void FindPath(Vector3 begin, Vector3 cease)
+    {
+        startPos = begin;
+        endPos = cease;
 
         // Assigning StartNode and Goal Node
         var (startColumn, startRow) = AIGridManager.Instance.GetGridCoordinates(startPos);
@@ -74,7 +99,8 @@ public class Pathfinding : MonoBehaviour
         }
     }
 
-    void SimplifyPath()
+    // Converting Node position to grid position 
+    private void SimplifyPath()
     {
         if (pathArray == null)
             return;

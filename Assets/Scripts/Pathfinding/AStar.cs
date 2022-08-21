@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 public class AStar
 {
+ 
     private float HeuristicEstimateCost(Node curNode, Node goalNode) // hCost
     {
         return (curNode.position - goalNode.position).magnitude;
@@ -85,4 +86,5 @@ public class AStar
         /* The CalculatePath method traces through each node's parent node object and builds an array list. Since we want a path array from the start node 
            to the target node, we just call the Reverse method */
     }
+
 }

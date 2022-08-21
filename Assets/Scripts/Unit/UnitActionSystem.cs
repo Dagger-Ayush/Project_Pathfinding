@@ -29,14 +29,23 @@ public class UnitActionSystem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(TurnManager.Instance.IsPlayerTurn())
+            UnitSelectionCheck();
+
+        if (!TurnManager.Instance.IsPlayerTurn())
+            return;
+    }
+
+    private void UnitSelectionCheck()
+    {
         if (Input.GetMouseButtonDown(0) && !(Pathfinding.Instance.isMoving))
         {
             if (TryHandleUnitSelection()) return;
 
-            // Assigns the pathfinding position list to the selected unit 
-            selectedUnit.GetMoveAction().SetTargetPos(Pathfinding.Instance.posList);
+            // Assigns the pathfinding position list to the selected unit, if it's player turn
+            if (TurnManager.Instance.IsPlayerTurn())
+                selectedUnit.GetMoveAction().SetTargetPos(Pathfinding.Instance.posList);
         }
-           
     }
     
     // Function to check if the unit is selected
@@ -47,6 +56,12 @@ public class UnitActionSystem : MonoBehaviour
         {
             if (raycasthit.transform.TryGetComponent<Unit>(out Unit unit)) // Returns true only if unit is selected
             {
+                if (unit == selectedUnit) // Unit is already selected
+                    return false;
+
+                if (unit.IsEnemy()) // Clicked on Enemy Unit
+                    return false;
+
                 SetSelectedUnit(unit);
                 return true;
             }

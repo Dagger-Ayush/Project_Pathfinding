@@ -27,6 +27,7 @@ public class Node
     {
         return obj is Node node && position.Equals(node.position);
     }
+
     public override int GetHashCode()
     {
         return HashCode.Combine(position);

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,7 +6,6 @@ using UnityEngine;
 public class MoveAction : MonoBehaviour
 {
     [SerializeField] private Animator unitAnimator;
-
     private Unit unit;
 
     readonly private float moveSpeed = 3.0f;
@@ -18,18 +18,26 @@ public class MoveAction : MonoBehaviour
 
     void Awake()
     {
-        targetPos = transform.position;
         unit = GetComponent<Unit>();
+    }
+
+    private void Start()
+    {
+        targetPos = transform.position;              // Other units should not move while other player is selected, units stay on the places they currently are
         pathfindingList = new List<Vector3>();
         currentPosIndex = 0;
     }
 
     private void Update()
     {
-        if (unit == UnitActionSystem.Instance.GetSelectedUnit())
-            targetPos = SetTargetPos(pathfindingList);             // If it's not getting input through 'UnitActionSystem' an empty list is feeded as an input, and hence unit dosen't move 
-        else
-            targetPos = transform.position;
+        MoveToTarget();
+    }
+
+    public void MoveToTarget()
+    {
+        SetPosForPlayerMovement();
+
+        SetPosForEnemyMovement();
 
         // Unit Movement
         if (Vector3.Distance(transform.position, targetPos) > stopDis)
@@ -47,11 +55,41 @@ public class MoveAction : MonoBehaviour
             currentPosIndex++;
 
             if (transform.position == targetPos)
+            {
                 unitAnimator.SetBool("IsRunning", false);
+            }
+
+            if (!TurnManager.Instance.IsPlayerTurn() && unit.IsEnemy() && !Pathfinding.Instance.isMoving)
+            {
+                EnemyAI.Instance.enemyTurnCompelted = true;
+            }
+                
         }
     }
 
-    // Fumction to get pathfinding positions one by one
+    // Setting player target position 
+    private void SetPosForPlayerMovement()
+    {
+        if (TurnManager.Instance.IsPlayerTurn())
+        {
+            // If it's not getting input through 'UnitActionSystem' an empty list is feeded as an input, and hence unit dosen't move 
+            if (unit == UnitActionSystem.Instance.GetSelectedUnit())
+                targetPos = SetTargetPos(pathfindingList);
+            else
+                targetPos = transform.position;
+        }
+    }
+
+    // Setting enemy target position
+    private void SetPosForEnemyMovement()
+    {
+        if (!TurnManager.Instance.IsPlayerTurn() && unit.IsEnemy())
+        {
+            targetPos = SetTargetPos(Pathfinding.Instance.GetPosList());
+        }
+    }
+
+    // Function to get pathfinding positions one by one
     public Vector3 SetTargetPos(List<Vector3> posList)
     {
         // Getting Pathfinding Route from pathfinding script
@@ -68,5 +106,4 @@ public class MoveAction : MonoBehaviour
         }
         return transform.position;
     }
-
 }
